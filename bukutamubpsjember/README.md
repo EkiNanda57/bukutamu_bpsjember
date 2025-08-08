@@ -64,3 +64,68 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# 📌 Aplikasi Buku Tamu BPS Jember
+
+Aplikasi ini dibangun menggunakan **Laravel 12** untuk mencatat dan mengelola data kunjungan tamu di lingkungan BPS Kabupaten Jember.
+
+> ⚠️ *Catatan: Aplikasi masih dalam tahap pengembangan.*
+
+## ⚙️ Instalasi
+
+1. **Clone repositori ini:**
+
+    ```bash
+    git clone https://github.com/EkiNanda57/bukutamu_bpsjember.git
+    ```
+
+2. **Masuk ke folder project:**
+
+    ```bash
+    cd bukutamu_bpsjember
+    ```
+
+3. **Install semua dependency:**
+
+    ```bash
+    composer install
+    ```
+
+4. **Salin file .env:**
+
+    ```bash
+    cp .env.example .env
+    ```
+
+5. **Konfigurasi `.env` sesuai database lokalmu:**
+
+    ```env
+    DB_PORT=3306
+    DB_DATABASE=bpsjembe_bt_kp
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+
+6. **Generate key:**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+7. **Install frontend depedency (via NPM):**
+
+    ```bash
+    npm install
+    ```
+
+8. **Jalankan aplikasi:**
+
+    ```bash
+    php artisan serve
+    ```
+
+8. **Jalankan Vite dev server (untuk frontend live reload):**
+
+    ```bash
+    npm run dev
+    ```
