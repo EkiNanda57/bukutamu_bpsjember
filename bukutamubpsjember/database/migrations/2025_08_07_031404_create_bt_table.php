@@ -13,7 +13,21 @@ return new class extends Migration
     {
         Schema::create('bt', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('tahun');
+            $table->string('bulan');
+            $table->string('hari');
+            $table->string('waktu');
+            $table->string('nama');
+            $table->string('email');
+            $table->string('alamat');
+            $table->string('no_hp');
+            $table->string('umur');
+            $table->string('asal');
+            $table->string('jk');
+            $table->string('pendidikan');
+            $table->string('pekerjaan');
+            $table->string('keperluan');
+            $table->string('k_lain')->nullable();
         });
     }
 

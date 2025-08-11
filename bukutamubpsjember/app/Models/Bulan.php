@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bulan extends Model
 {
-    //
+    protected $table = 'bt';
+
+    protected $fillable = [
+        'nama'
+    ];
+
+    public $timestamps = false;
 }

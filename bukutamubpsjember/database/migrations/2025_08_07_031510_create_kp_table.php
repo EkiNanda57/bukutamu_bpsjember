@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('kp', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('tahun');
+            $table->string('bulan');
+            $table->string('hari');
+            $table->string('waktu');
+            $table->string('email');
+            $table->string('kepuasan');
         });
     }
 

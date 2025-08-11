@@ -6,5 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kp extends Model
 {
-    //
+    protected $table = 'bt';
+
+    protected $fillable = [
+        'tahun', 
+        'bulan', 
+        'hari', 
+        'waktu', 
+        'email', 
+        'kepuasan'
+    ];
+
+    public $timestamps = false;
 }
