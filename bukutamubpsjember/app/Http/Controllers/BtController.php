@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bt;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +35,7 @@ class BtController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'tahun'       => 'required|integer',
-            'bulan'       => 'required|string',
-            'hari'        => 'required|string',
-            'waktu'       => 'required|string',
+        $request->validate([
             'nama'        => 'required|string|max:255',
             'email'       => 'required|email',
             'alamat'      => 'required|string',
@@ -52,7 +49,15 @@ class BtController extends Controller
             'k_lain'      => 'nullable|string',
         ]);
 
-        Bt::create($validated);
+        $data = $request->all();
+
+        $now = Carbon::now();
+        $data['tahun'] = $now->year;
+        $data['bulan'] = $now->format('m');
+        $data['hari'] = $now->day;
+        $data['waktu'] = $now->format('h:i:s');
+
+        Bt::create($data);
 
         return redirect()->back()->with('success', 'Terima kasih, data Anda sudah tersimpan.');
     }
