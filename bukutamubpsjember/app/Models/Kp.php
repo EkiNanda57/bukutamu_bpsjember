@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kp extends Model
 {
-    protected $table = 'bt';
+    protected $table = 'kp';
 
     protected $fillable = [
-        'tahun', 
-        'bulan', 
-        'hari', 
-        'waktu', 
-        'email', 
+        'tahun',
+        'bulan',
+        'hari',
+        'waktu',
+        'email',
         'kepuasan'
     ];
 

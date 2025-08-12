@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kp', function (Blueprint $table) {
-            $table->id();
-            $table->integer('tahun');
-            $table->string('bulan');
-            $table->string('hari');
-            $table->string('waktu');
-            $table->string('email');
-            $table->string('kepuasan');
+            $table->integer('id');
+            $table->integer('tahun', 4)->change();
+            $table->varchar('bulan', 2)->change();
+            $table->varchar('hari', 2)->change();
+            $table->varchar('waktu', 8)->change();
+            $table->varchar('email', 64)->change();
+            $table->varchar('kepuasan', 11)->change();
         });
     }
 
