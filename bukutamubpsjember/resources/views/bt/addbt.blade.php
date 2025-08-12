@@ -14,26 +14,6 @@
         @csrf
 
         <div>
-            <label class="block font-medium">Tahun</label>
-            <input type="number" name="tahun" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        <div>
-            <label class="block font-medium">Bulan</label>
-            <input type="text" name="bulan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        <div>
-            <label class="block font-medium">Hari</label>
-            <input type="text" name="hari" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        <div>
-            <label class="block font-medium">Waktu</label>
-            <input type="text" name="waktu" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        <div>
             <label class="block font-medium">Nama</label>
             <input type="text" name="nama" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
@@ -59,7 +39,7 @@
         </div>
 
         <div>
-            <label class="block font-medium">Asal</label>
+            <label class="block font-medium">Asal Instansi</label>
             <input type="text" name="asal" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
 
@@ -67,31 +47,73 @@
             <label class="block font-medium">Jenis Kelamin</label>
             <select name="jk" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option value="">-- Pilih --</option>
-                <option value="L">Laki-laki</option>
-                <option value="P">Perempuan</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
             </select>
         </div>
 
         <div>
             <label class="block font-medium">Pendidikan</label>
-            <input type="text" name="pendidikan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="pendidikan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- Pilih --</option>
+                    <option value="SD">SD</option>
+                    <option value="SMP">SMP</option>
+                    <option value="SMA">SMA</option>
+                    <option value="D3/D2/D1">D3/D2/D1</option>
+                    <option value="S1/D4">S1/D4</option>
+                    <option value="S2">S2</option>
+                    <option value="S3">S3</option>
+                </select>
         </div>
 
         <div>
             <label class="block font-medium">Pekerjaan</label>
-            <input type="text" name="pekerjaan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="pekerjaan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- Pilih --</option>
+                    <option value="Belum Bekerja">Belum Bekerja</option>
+                    <option value="Guru/Dosen">Guru/Dosen</option>
+                    <option value="Karyawan BUMN">Karyawan BUMN</option>
+                    <option value="Karyawan Swasta">Karyawan Swasta</option>
+                    <option value="Mahasiswa">Mahasiswa</option>
+                    <option value="PNS">PNS</option>
+                    <option value="Polri/TNI">Polri/TNI</option>
+                    <option value="Wiraswasta">Wiraswasta</option>
+                </select>
         </div>
 
-        <div>
+        <div class="mb-4">
             <label class="block font-medium">Keperluan</label>
-            <input type="text" name="keperluan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <select id='keperluan' name="keperluan" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- Pilih --</option>
+                    <option value="Perpustakaan Tercetak">Perpustakaan Tercetak</option>
+                    <option value="Perpustakaan Digital">Perpustakaan Digital</option>
+                    <option value="Penjualan Publikasi">Penjualan Publikasi</option>
+                    <option value="Konsultasi Statistik">Konsultasi Statistik</option>
+                    <option value="Data Mikro">Data Mikro</option>
+                    <option value="Rekomendasi Kegiatan Statistik">Rekomendasi Kegiatan Statistik</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
         </div>
 
-        <div>
-            <label class="block font-medium">Keterangan Lain</label>
-            <input type="text" name="k_lain" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        <div id ="keperluanlainnya" class="hidden mb-4">
+            <label class="block font-medium">Keperluan Lainnya</label>
+            <input type="text" name="k_lain" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Lainnya">
         </div>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const keperluan = document.getElementById('keperluan');
+                const keperluanlainnya = document.getElementById('keperluanlainnya');
+
+                keperluan.addEventListener('change', function () {
+                    if (this.value === 'Lainnya') {
+                        keperluanlainnya.classList.remove('hidden');
+                    } else {
+                        keperluanlainnya.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
         <div>
             <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Kirim</button>
         </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bt;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 
 class BtController extends Controller
@@ -34,11 +36,7 @@ class BtController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'tahun'       => 'required|integer',
-            'bulan'       => 'required|string',
-            'hari'        => 'required|string',
-            'waktu'       => 'required|string',
+        $request->validate([
             'nama'        => 'required|string|max:255',
             'email'       => 'required|email',
             'alamat'      => 'required|string',
@@ -52,10 +50,54 @@ class BtController extends Controller
             'k_lain'      => 'nullable|string',
         ]);
 
-        Bt::create($validated);
+        $data = $request->all();
 
-        return redirect()->back()->with('success', 'Terima kasih, data Anda sudah tersimpan.');
+        $now = Carbon::now();
+        $data['tahun'] = $now->year;
+        $data['bulan'] = $now->format('m');
+        $data['hari'] = $now->day;
+        $data['waktu'] = $now->format('h:i:s');
+
+        Bt::create($data);
+
+        return redirect()->route('bt.view')->with('success', 'Terima kasih, data Anda sudah tersimpan.');
     }
+
+    public function viewBt(Request $request)
+    {
+        $query = Bt::query();
+
+        if ($request->filled('bulan')){
+            $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
+            $query->where('bulan', $bulan);
+        }
+
+        if ($request->filled('tahun')){
+            $query->where('tahun', $request->tahun);
+        }
+
+        $bts = $query->orderBy('id', 'asc')->paginate(20);
+        return view('bt.viewbt', compact('bts'));
+    }
+
+    public function exportPdf(Request $request)
+{
+    $bts = Bt::query();
+
+    // Filter sesuai request (bulan, tahun)
+    if ($request->filled('bulan')) {
+        $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
+        $bts->where('bulan', $bulan);
+    }
+    if ($request->filled('tahun')) {
+        $bts->where('tahun', $request->tahun);
+    }
+
+    $bts = $bts->get();
+
+    $pdf = Pdf::loadView('bt.pdfbt', compact('bts'))->setPaper('a4', 'landscape');
+    return $pdf->download('Laporan-buku-tamu-BPS-Jember.pdf');
+}
 
     /**
      * Edit data Buku Tamu (admin saja)
