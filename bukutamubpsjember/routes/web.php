@@ -19,8 +19,11 @@ Route::middleware('auth')->group(function () {
 });
 
 // Form buku tamu untuk guest
-Route::get('/buku-tamu', [BtController::class, 'create'])->name('bt.create');
-Route::post('/buku-tamu', [BtController::class, 'store'])->name('bt.store');
+Route::get('/bt', [BtController::class, 'create'])->name('bt.create');
+Route::post('/bt',[BtController::class, 'store'])->name('bt.store');
+Route::get('/bt/view', [BtController::class, 'viewBt'])->name('bt.view');
+Route::get('/buku-tamu/excel', [BtController::class, 'exportExcel'])->name('buku-tamu.excel');
+Route::get('/bt/export-pdf', [BtController::class, 'exportPdf'])->name('bt.exportPdf');
 
 
 require __DIR__.'/auth.php';
