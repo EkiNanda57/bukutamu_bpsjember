@@ -40,5 +40,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/kepuasan', [\App\Http\Controllers\KpController::class, 'index'])->name('kp.index');
 });
 
+//download pdf kepuasan pelanggan
+Route::get('/kp/download-pdf', [KpController::class, 'downloadPDF'])->name('kp.downloadPDF');
+
 
 require __DIR__.'/auth.php';
