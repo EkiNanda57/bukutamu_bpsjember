@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BtController;
 use App\Http\Controllers\KpController;
+use App\Http\Controllers\LandingPageController;
+
+
+Route::get('/lp', function () {return view('landingpage/lp');})->name('lp');
 
 Route::get('/', function () {
     return view('welcome');

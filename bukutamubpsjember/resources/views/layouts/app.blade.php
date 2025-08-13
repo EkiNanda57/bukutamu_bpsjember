@@ -15,7 +15,7 @@
         <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
-                    <a href="{{ url('/') }}" class="flex items-center space-x-4">
+                    <a href="{{ route('lp') }}" class="flex items-center space-x-4">
                         <div class="flex-shrink-0 h-12 flex items-center">
                             <img src="{{ asset('logo/logo-BPS.png') }}" alt="BPS Logo" class="h-full w-auto">
                         </div>
@@ -30,11 +30,11 @@
                     </a>
 
                     <div class="hidden md:flex items-center space-x-8">
-                        <a href="#" class="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors">
-                            Buku Tamu
+                        <a href="{{ route('bt.create') }}" class="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors">
+                            Form Buku Tamu
                         </a>
-                        <a href="#" class="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors">
-                            Survey Kepuasan
+                        <a href="{{ route('kp.create') }}" class="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors">
+                            Kepuasan Pelanggan
                         </a>
                     </div>
                 </div>

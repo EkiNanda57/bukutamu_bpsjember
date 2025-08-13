@@ -125,15 +125,14 @@
                 </button>
             </div>
 
-            <div class="flex justify-center gap-3 pt-2 h-12">
-                {{-- Menggunakan tag <a> untuk navigasi lebih tepat secara semantik --}}
+            {{-- <div class="flex justify-center gap-3 pt-2 h-12">
                 <a href="#" class="bg-orange-500 text-white font-bold py-2 px-4 rounded-full text-sm flex-1 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-200 whitespace-nowrap text-center">
                     HALAMAN UTAMA
                 </a>
                 <a href="#" class="bg-orange-500 text-white font-bold py-2 px-4 rounded-full text-sm flex-1 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-200 whitespace-nowrap text-center">
                     KEPUASAN PELANGGAN
                 </a>
-            </div>
+            </div> --}}
         </form>
     </div>
 </div>
