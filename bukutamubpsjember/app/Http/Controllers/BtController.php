@@ -60,7 +60,7 @@ class BtController extends Controller
 
         Bt::create($data);
 
-        return redirect()->route('bt.view')->with('success', 'Terima kasih, data Anda sudah tersimpan.');
+        return redirect()->back()->with('success', 'Terima kasih, data Anda sudah tersimpan.');
     }
 
     public function viewBt(Request $request)
