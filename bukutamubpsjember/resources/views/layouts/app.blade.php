@@ -8,31 +8,17 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-    {{-- Memuat CSS dan JS menggunakan Vite (jika ada) atau cara lain --}}
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
-<body>
+<body class="font-sans antialiased bg-gray-100">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                {{-- Di sini bisa ditambahkan menu navigasi lain jika perlu --}}
-            </div>
-        </nav>
-
         <main class="py-4">
             @yield('content')
         </main>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
