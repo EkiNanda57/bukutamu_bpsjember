@@ -10,7 +10,7 @@ use App\Http\Controllers\LandingPageController;
 Route::get('/lp', function () {return view('landingpage/lp');})->name('lp');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingpage.lp');
 });
 
 Route::get('/dashboard', function () {

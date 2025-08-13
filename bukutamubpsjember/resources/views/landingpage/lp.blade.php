@@ -21,7 +21,13 @@
     </script>
     <style>
         .bg-gradient-bps {
-            background: linear-gradient(135deg, #119bdb81 0%, #37e31d87 100%, #ff74177d);
+            background: linear-gradient(
+                135deg, 
+                #37e31d87 0%,
+                #119bdb81 50%,     /* Biru transparan awal */
+                    /* Hijau di tengah */
+                #ff74177d 100%    /* Oranye akhir */
+            );
         }
         .bg-gradient-button {
             background: linear-gradient(135deg, #ff6b35, #f7931e);
@@ -78,21 +84,23 @@
         <div class="mt-8 flex flex-col items-center">
             <div class="mb-6">
                 <img src="{{ asset('assets/barcode_bukutamu.png') }}" alt="BPS Logo" class="w-48 h-48 object-contain mx-auto">
-            </div>
-        <p class="text-lg font-medium text-white-100">bukutamu.bpsjember.com</p>
-        </div>
+           <p class="text-lg font-medium text-white-100 mb-8">
+    bukutamu.bpsjember.com
+</p>
 
-        <!-- Buttons -->
-        <div class="flex justify-center gap-4 flex-wrap">
-            <button class="bg-gradient-button text-white px-8 py-4 rounded-full font-semibold text-base cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 uppercase tracking-wider w-96"
-                onclick="window.location.href='{{ route('bt.create') }}'">
-                BUKU TAMU
-            </button>
-            <button class="bg-gradient-button text-white px-8 py-4 rounded-full font-semibold text-base cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 uppercase tracking-wider w-96"
-                onclick="window.location.href='{{ route('kp.create') }}'">
-                KEPUASAN PELAYANAN
-            </button>
-        </div>
+<!-- Buttons -->
+<div class="flex justify-center gap-4 flex-wrap">
+    <button class="bg-gradient-button text-white px-8 py-4 rounded-full font-semibold text-base cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 uppercase tracking-widest w-96"
+        onclick="window.location.href='{{ route('bt.create') }}'">
+        BUKU TAMU
+    </button>
+
+    <button class="bg-gradient-button text-white px-8 py-4 rounded-full font-semibold text-base cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 uppercase tracking-widest w-96"
+        onclick="window.location.href='{{ route('kp.create') }}'">
+        KEPUASAN PELAYANAN
+    </button>
+</div>
+
     </div>
 </body>
 </html>
