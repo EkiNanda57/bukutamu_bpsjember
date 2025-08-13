@@ -32,6 +32,7 @@
             <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary me-3">Filter</button>
                 <a href="{{ route('admin.kp.index') }}" class="btn btn-secondary">Reset</a>
+                <a href="{{ route('kp.downloadPDF', ['bulan' => request('bulan'), 'tahun' => request('tahun')]) }}" class="btn btn-success ms-2" target="_blank">PDF</a>
             </div>
         </div>
     </form>
