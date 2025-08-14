@@ -1,17 +1,28 @@
-<h2>Laporan Buku Tamu BPS Kabupaten Jember</h2>
+<h2 style="text-align:center; font-size:16px; margin-bottom:10px;">
+    Laporan Buku Tamu BPS Kabupaten Jember
+</h2>
+
 <style>
     table {
         width: 100%;
         border-collapse: collapse;
         font-size: 10px;
+        table-layout: fixed;
     }
     th, td {
-        border: 1px solid black;
-        padding: 3px;
+        border: 1px solid #000;
+        padding: 4px 6px;
         word-wrap: break-word;
-        max-width: 80px;
+        max-width: 90px;
+    }
+    thead {
+        background-color: #f2f2f2;
+    }
+    h2 {
+        font-family: Arial, sans-serif;
     }
 </style>
+
 <table>
     <thead>
         <tr>
