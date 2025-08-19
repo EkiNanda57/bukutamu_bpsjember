@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-6">
@@ -9,8 +9,8 @@
     {{-- Filter Data --}}
     <form method="GET" action="{{ route('bt.view') }}" id="filterForm"
         class="mb-6 flex flex-col md:flex-row gap-3">
-        
-        <select name="bulan" 
+
+        <select name="bulan"
             class="border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
             onchange="document.getElementById('filterForm').submit()">
             <option value="">-- Pilih Bulan --</option>
@@ -21,7 +21,7 @@
             @endforeach
         </select>
 
-        <select name="tahun" 
+        <select name="tahun"
             class="border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
             onchange="document.getElementById('filterForm').submit()">
             <option value="">-- Pilih Tahun --</option>
@@ -35,7 +35,7 @@
 
     {{-- Tombol Download PDF --}}
     <div class="mb-6">
-        <a href="{{ route('bt.exportPdf', request()->all()) }}" 
+        <a href="{{ route('bt.exportPdf', request()->all()) }}"
            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
             Download PDF
         </a>

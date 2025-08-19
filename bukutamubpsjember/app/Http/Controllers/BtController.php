@@ -15,12 +15,8 @@ class BtController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) {
-            return redirect('/'); // jika belum login, kembalikan ke halaman utama
-        }
-
-        $bt = Bt::orderBy('id', 'desc')->get();
-        return view('bt.index', compact('bt'));
+        $bt = Bt::orderBy('id', 'desc')->paginate(20); // Mengambil 20 data per halaman
+        return view('bt.viewbt', compact('bt'));
     }
 
     /**
@@ -76,12 +72,12 @@ class BtController extends Controller
             $query->where('tahun', $request->tahun);
         }
 
-        $bts = $query->orderBy('id', 'asc')->paginate(20);
+        $bts = $query->orderBy('id', 'desc')->paginate(20);
         return view('bt.viewbt', compact('bts'));
     }
 
     public function exportPdf(Request $request)
-{
+    {
     $bts = Bt::query();
 
     // Filter sesuai request (bulan, tahun)
@@ -97,66 +93,6 @@ class BtController extends Controller
 
     $pdf = Pdf::loadView('bt.pdfbt', compact('bts'))->setPaper('a4', 'landscape');
     return $pdf->download('Laporan-buku-tamu-BPS-Jember.pdf');
-}
+    }
 
-    /**
-     * Edit data Buku Tamu (admin saja)
-     */
-    // public function edit($id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
-
-    //     $bt = Bt::findOrFail($id);
-    //     return view('bt.edit', compact('bt'));
-    // }
-
-    // /**
-    //  * Update data Buku Tamu (admin saja)
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
-
-    //     $validated = $request->validate([
-    //         'tahun'       => 'required|integer',
-    //         'bulan'       => 'required|string',
-    //         'hari'        => 'required|string',
-    //         'waktu'       => 'required|string',
-    //         'nama'        => 'required|string|max:255',
-    //         'email'       => 'required|email',
-    //         'alamat'      => 'required|string',
-    //         'no_hp'       => 'required|string|max:20',
-    //         'umur'        => 'required|string|max:5',
-    //         'asal'        => 'required|string',
-    //         'jk'          => 'required|string',
-    //         'pendidikan'  => 'required|string',
-    //         'pekerjaan'   => 'required|string',
-    //         'keperluan'   => 'required|string',
-    //         'k_lain'      => 'nullable|string',
-    //     ]);
-
-    //     $bt = Bt::findOrFail($id);
-    //     $bt->update($validated);
-
-    //     return redirect()->route('bt.index')->with('success', 'Data Buku Tamu berhasil diperbarui.');
-    // }
-
-    // /**
-    //  * Hapus data Buku Tamu (admin saja)
-    //  */
-    // public function destroy($id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
-
-    //     $bt = Bt::findOrFail($id);
-    //     $bt->delete();
-
-    //     return redirect()->route('bt.index')->with('success', 'Data Buku Tamu berhasil dihapus.');
-    // }
 }
