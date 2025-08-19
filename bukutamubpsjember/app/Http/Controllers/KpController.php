@@ -10,9 +10,6 @@ class KpController extends Controller
 {
     public function index(Request $request)
     {
-        // $data = Kp::all();
-        // return view('kp.index', compact('data'));
-
         $bulan = $request->input('bulan');
         $tahun = $request->input('tahun');
 
@@ -29,7 +26,11 @@ class KpController extends Controller
                   ->orderBy('bulan', 'asc')
                   ->orderBy('hari', 'asc')
                   ->orderBy('waktu', 'asc')
-                  ->paginate(25);
+                  ->paginate(25)->withQueryString();
+
+        if ($request->ajax()) {
+            return view('kp._data_table', compact('data'))->render();
+        }
         return view('kp.index', compact('data', 'bulan', 'tahun'));
     }
 

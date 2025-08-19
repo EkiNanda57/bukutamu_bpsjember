@@ -1,16 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-6">
 
-    <!-- Judul -->
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Daftar Data Kepuasan Pelanggan</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Daftar Data Kepuasan Pengunjung</h2>
 
-    <!-- Form Filter -->
-    <form action="{{ route('admin.kp.index') }}" method="GET" class="bg-white p-6 rounded-lg shadow-md space-y-4">
+    <form id="filter-form" action="{{ route('admin.kp.index') }}" method="GET" class="bg-white p-6 rounded-lg shadow-md space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-            <!-- Filter Bulan -->
             <div>
                 <label for="bulan" class="block text-sm font-medium text-gray-700 mb-1">Filter Bulan</label>
                 <select name="bulan" id="bulan" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
@@ -22,8 +18,6 @@
                     @endfor
                 </select>
             </div>
-
-            <!-- Filter Tahun -->
             <div>
                 <label for="tahun" class="block text-sm font-medium text-gray-700 mb-1">Filter Tahun</label>
                 <select name="tahun" id="tahun" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
@@ -35,60 +29,58 @@
                     @endfor
                 </select>
             </div>
-
-            <!-- Tombol -->
-            <div class="flex items-end gap-2">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
-                    Filter
-                </button>
-                <a href="{{ route('admin.kp.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg shadow">
-                    Reset
-                </a>
-                <a href="{{ route('kp.downloadPDF', ['bulan' => request('bulan'), 'tahun' => request('tahun')]) }}" target="_blank"
-                   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow">
+            <div class="flex items-end">
+                <a id="pdf-button" href="{{ route('kp.downloadPDF', ['bulan' => request('bulan'), 'tahun' => request('tahun')]) }}" target="_blank"
+                   class="bg-red-600 hover:bg-red-700 text-white px-10 py-2 rounded-lg shadow transition">
                     PDF
                 </a>
             </div>
         </div>
     </form>
 
-    <!-- Tabel -->
-    <div class="overflow-x-auto mt-6 bg-white rounded-lg shadow">
-        <table class="min-w-full text-sm text-left border border-gray-200">
-            <thead class="bg-blue-600 text-white">
-                <tr>
-                    <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Kepuasan</th>
-                    <th class="px-4 py-2">Tahun</th>
-                    <th class="px-4 py-2">Bulan</th>
-                    <th class="px-4 py-2">Hari</th>
-                    <th class="px-4 py-2">Waktu</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($data as $i => $kp)
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="px-4 py-2">{{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2">{{ $kp->email }}</td>
-                        <td class="px-4 py-2">{{ $kp->kepuasan }}</td>
-                        <td class="px-4 py-2">{{ $kp->tahun }}</td>
-                        <td class="px-4 py-2">{{ $kp->bulan }}</td>
-                        <td class="px-4 py-2">{{ $kp->hari }}</td>
-                        <td class="px-4 py-2">{{ $kp->waktu }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="px-4 py-2 text-center text-gray-500">Tidak ada data.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div id="data-wrapper" class="mt-6">
+        @include('kp._data_table', ['data' => $data])
     </div>
 
-    <!-- Pagination -->
-    <div class="mt-4">
-        {{ $data->links() }}
-    </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const selectBulan = document.getElementById('bulan');
+    const selectTahun = document.getElementById('tahun');
+    const dataWrapper = document.getElementById('data-wrapper');
+    const pdfButton = document.getElementById('pdf-button');
+    const form = document.getElementById('filter-form');
+
+    function fetchData() {
+        const baseUrl = form.getAttribute('action');
+        const bulan = selectBulan.value;
+        const tahun = selectTahun.value;
+        const params = new URLSearchParams({ bulan, tahun });
+        const fetchUrl = `${baseUrl}?${params.toString()}`;
+
+        dataWrapper.innerHTML = '<p class="text-center py-10">Memuat data...</p>';
+
+        fetch(fetchUrl, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.text())
+        .then(html => {
+            dataWrapper.innerHTML = html;
+            window.history.pushState({}, '', fetchUrl);
+            const pdfBaseUrl = "{{ route('kp.downloadPDF') }}";
+            pdfButton.href = `${pdfBaseUrl}?${params.toString()}`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            dataWrapper.innerHTML = '<p class="text-center py-10 text-red-500">Gagal memuat data.</p>';
+        });
+    }
+
+    selectBulan.addEventListener('change', fetchData);
+    selectTahun.addEventListener('change', fetchData);
+});
+</script>
+@endpush

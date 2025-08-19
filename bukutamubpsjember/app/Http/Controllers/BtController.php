@@ -15,12 +15,8 @@ class BtController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) {
-            return redirect('/'); // jika belum login, kembalikan ke halaman utama
-        }
-
-        $bt = Bt::orderBy('id', 'desc')->get();
-        return view('bt.index', compact('bt'));
+        $bt = Bt::orderBy('id', 'desc')->paginate(20); // Mengambil 20 data per halaman
+        return view('bt.viewbt', compact('bt'));
     }
 
     /**
