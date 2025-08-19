@@ -24,14 +24,15 @@
 
 
         {{-- Pilih Tahun --}}
-        <select name="tahun" 
-            class="w-48 border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
-=
         <select name="tahun"
-            class="border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
+            class="w-48 border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
             onchange="document.getElementById('filterForm').submit()">
             <option value="">Semua Tahun</option>
             @foreach (range(date('Y'), 2000) as $t)
+                <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
+                    {{ $t }}
+                </option>
+            @endforeach
         </select>
 
         {{-- Search Nama --}}
