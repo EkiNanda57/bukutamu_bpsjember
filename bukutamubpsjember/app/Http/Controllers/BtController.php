@@ -35,128 +35,96 @@ class BtController extends Controller
      * Simpan data Buku Tamu
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama'        => 'required|string|max:255',
-            'email'       => 'required|email',
-            'alamat'      => 'required|string',
-            'no_hp'       => 'required|string|max:20',
-            'umur'        => 'required|string|max:5',
-            'asal'        => 'required|string',
-            'jk'          => 'required|string',
-            'pendidikan'  => 'required|string',
-            'pekerjaan'   => 'required|string',
-            'keperluan'   => 'required|string',
-            'k_lain'      => 'nullable|string',
-        ]);
-
-        $data = $request->all();
-
-        $now = Carbon::now();
-        $data['tahun'] = $now->year;
-        $data['bulan'] = $now->format('m');
-        $data['hari'] = $now->day;
-        $data['waktu'] = $now->format('h:i:s');
-
-        Bt::create($data);
-
-        return redirect()->back()->with('success', 'Terima kasih, data Anda sudah tersimpan.');
-    }
-
-    public function viewBt(Request $request)
-    {
-        $query = Bt::query();
-
-        if ($request->filled('bulan')){
-            $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
-            $query->where('bulan', $bulan);
-        }
-
-        if ($request->filled('tahun')){
-            $query->where('tahun', $request->tahun);
-        }
-
-        $bts = $query->orderBy('id', 'asc')->paginate(20);
-        return view('bt.viewbt', compact('bts'));
-    }
-
-    public function exportPdf(Request $request)
 {
-    $bts = Bt::query();
+    $request->validate([
+        'nama'        => 'required|string|max:255',
+        'email'       => 'required|email',
+        'alamat'      => 'required|string',
+        'no_hp'       => 'required|string|max:20',
+        'umur'        => 'required|string|max:5',
+        'asal'        => 'required|string',
+        'jk'          => 'required|string',
+        'pendidikan'  => 'required|string',
+        'pekerjaan'   => 'required|string',
+        'keperluan'   => 'required|string',
+        'k_lain'      => 'nullable|string',
+    ]);
 
-    // Filter sesuai request (bulan, tahun)
-    if ($request->filled('bulan')) {
-        $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
-        $bts->where('bulan', $bulan);
-    }
-    if ($request->filled('tahun')) {
-        $bts->where('tahun', $request->tahun);
-    }
+    $now = Carbon::now();
+    Bt::create([
+        ...$request->all(),
+        'tahun' => $now->year,
+        'bulan' => $now->format('m'),
+        'hari'  => $now->day,
+        'waktu' => $now->format('H:i:s'), // jam 24 jam
+    ]);
 
-    $bts = $bts->get();
-
-    $pdf = Pdf::loadView('bt.pdfbt', compact('bts'))->setPaper('a4', 'landscape');
-    return $pdf->download('Laporan-buku-tamu-BPS-Jember.pdf');
+    return redirect()->back()->with('success', 'Terima kasih, data Anda sudah tersimpan.');
 }
 
-    /**
-     * Edit data Buku Tamu (admin saja)
-     */
-    // public function edit($id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
+    public function viewBt(Request $request)
+{
+    $query = Bt::query();
 
-    //     $bt = Bt::findOrFail($id);
-    //     return view('bt.edit', compact('bt'));
-    // }
+    if ($request->filled('bulan')) {
+        $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
+        $query->where('bulan', $bulan);
+    }
 
-    // /**
-    //  * Update data Buku Tamu (admin saja)
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
+    if ($request->filled('tahun')) {
+        $query->where('tahun', $request->tahun);
+    }
 
-    //     $validated = $request->validate([
-    //         'tahun'       => 'required|integer',
-    //         'bulan'       => 'required|string',
-    //         'hari'        => 'required|string',
-    //         'waktu'       => 'required|string',
-    //         'nama'        => 'required|string|max:255',
-    //         'email'       => 'required|email',
-    //         'alamat'      => 'required|string',
-    //         'no_hp'       => 'required|string|max:20',
-    //         'umur'        => 'required|string|max:5',
-    //         'asal'        => 'required|string',
-    //         'jk'          => 'required|string',
-    //         'pendidikan'  => 'required|string',
-    //         'pekerjaan'   => 'required|string',
-    //         'keperluan'   => 'required|string',
-    //         'k_lain'      => 'nullable|string',
-    //     ]);
+    if ($request->filled('search')) {
+        $query->where('nama', 'like', '%' . $request->search . '%');
+    }
 
-    //     $bt = Bt::findOrFail($id);
-    //     $bt->update($validated);
+    $bts = $query->orderBy('id', 'asc')->paginate(15);
 
-    //     return redirect()->route('bt.index')->with('success', 'Data Buku Tamu berhasil diperbarui.');
-    // }
+    return view('bt.viewbt', compact('bts'));
+}
 
-    // /**
-    //  * Hapus data Buku Tamu (admin saja)
-    //  */
-    // public function destroy($id)
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect('/');
-    //     }
 
-    //     $bt = Bt::findOrFail($id);
-    //     $bt->delete();
 
-    //     return redirect()->route('bt.index')->with('success', 'Data Buku Tamu berhasil dihapus.');
-    // }
+public function exportPdf(Request $request)
+{
+    $query = Bt::query();
+    $periode = 'Keseluruhan'; // default
+
+    // Filter bulan
+    if ($request->filled('bulan')) {
+        $bulan = str_pad($request->bulan, 2, '0', STR_PAD_LEFT);
+        $query->where('bulan', $bulan);
+        $nama_bulan = \Carbon\Carbon::create()->month((int)$request->bulan)->translatedFormat('F');
+        $periode = 'Bulan ' . $nama_bulan;
+    }
+
+    // Filter tahun
+    if ($request->filled('tahun')) {
+        $query->where('tahun', $request->tahun);
+        $periode = $request->filled('bulan') ? $periode . ' ' . $request->tahun : 'Tahun ' . $request->tahun;
+    }
+
+    // Filter nama jika ada
+    if ($request->filled('search')) {
+        $query->where('nama', 'like', '%' . $request->search . '%');
+    }
+
+    // Ambil data sesuai filter atau seluruhnya
+    $bts = $query->orderBy('id', 'asc')->get();
+
+    // Nama file otomatis
+    $filename = 'Laporan-Buku-Tamu-BPS-Jember';
+    if ($request->filled('bulan')) $filename .= '-' . $nama_bulan;
+    if ($request->filled('tahun')) $filename .= '-' . $request->tahun;
+    $filename .= '.pdf';
+
+    // Generate PDF
+    $pdf = Pdf::loadView('bt.pdfbt', [
+        'bts' => $bts,
+        'periode' => $periode
+    ])->setPaper('a4', 'landscape');
+
+    return $pdf->download($filename);
+}
 }
