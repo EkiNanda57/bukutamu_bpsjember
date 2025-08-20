@@ -4,7 +4,7 @@
 
 <style>
     .bg-gradient-blue-green {
-        background: #0494dc82 100%;
+        background:  #f17a2ab0 50%;
         min-height: 100vh;
         display: flex;
         align-items: center;

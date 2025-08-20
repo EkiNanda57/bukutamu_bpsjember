@@ -25,9 +25,8 @@
             background: linear-gradient(
                 135deg, 
                 #37e31d87 0%,
-                #119bdb81 50%,     /* Biru transparan awal */
-                    /* Hijau di tengah */
-                #ff74177d 100%    /* Oranye akhir */
+                #ff74177d 50%,    
+                #119bdb81 100%   
             );
         }
         .bg-gradient-button {
