@@ -21,17 +21,53 @@
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
     <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sidebar-gradient transform -translate-x-full transition-all duration-300 ease-in-out lg:translate-x-0 shadow-2xl">
-        <nav class="mt-8 px-4">
+        {{-- <nav class="mt-8 px-4">
             <div class="space-y-2">
                 <a href="{{ route('dashboard') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 rounded-xl transition group">
                     <i class="fas fa-tachometer-alt text-blue-400"></i><span class="ml-3 font-medium">Dashboard</span>
                 </a>
-                <a href="{{ route('admin.kp.index') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 rounded-xl transition group">
-                    <i class="fas fa-smile text-green-400"></i><span class="ml-3 font-medium">Kepuasan Pengunjung</span>
-                </a>
                 <a href="{{ route('bt.view') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 rounded-xl transition group">
                     <i class="fas fa-book text-yellow-400"></i><span class="ml-3 font-medium">Buku Tamu</span>
                 </a>
+                <a href="{{ route('admin.kp.index') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 rounded-xl transition group">
+                    <i class="fas fa-smile text-green-400"></i><span class="ml-3 font-medium">Kepuasan Pengunjung</span>
+                </a>
+            </div>
+        </nav> --}}
+
+        <nav class="mt-8 px-4">
+            <div class="space-y-2">
+                {{-- Tautan Dashboard (asumsi route-nya bernama 'dashboard') --}}
+                <a href="{{ route('dashboard') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-300 group">
+                    <div class="p-2 bg-blue-500/20 rounded-lg mr-3 group-hover:bg-blue-500/30 transition-colors">
+                        <i class="fas fa-tachometer-alt text-blue-400"></i>
+                    </div>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                {{-- Tautan Kepuasan Pelanggan (hapus onclick) --}}
+                <a href="{{ route('admin.kp.index') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-300 group">
+                    <div class="p-2 bg-green-500/20 rounded-lg mr-3 group-hover:bg-green-500/30 transition-colors">
+                        <i class="fas fa-smile text-green-400"></i>
+                    </div>
+                    <span class="font-medium">Kepuasan Pengunjung</span>
+                </a>
+
+                {{-- Tautan Buku Tamu (perbaiki href dan hapus onclick) --}}
+                <a href="{{ route('bt.view') }}" class="nav-link flex items-center px-4 py-3 text-gray-50 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-300 group">
+                    <div class="p-2 bg-yellow-500/20 rounded-lg mr-3 group-hover:bg-yellow-500/30 transition-colors">
+                        <i class="fas fa-book text-yellow-400"></i>
+                    </div>
+                    <span class="font-medium">Buku Tamu</span>
+                </a>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-white/10 lg:hidden">
+                <button id="sidebar-close" class="nav-link w-full flex items-center justify-center px-4 py-3 text-gray-50 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-300 group">
+                    <div class="p-2 bg-white-500/20 rounded-lg mr-3 group-hover:bg-white-500/30 transition-colors">
+                        <i class="fas fa-chevron-left text-grey-400"></i>
+                    </div>
+                </button>
             </div>
         </nav>
     </div>
@@ -64,6 +100,97 @@
             @yield('content')
         </main>
     </div>
+...
+ <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
+
+ {{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        // Fungsi untuk membuka sidebar
+        function openSidebar() {
+            if (sidebar) sidebar.classList.remove('-translate-x-full');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('hidden');
+        }
+
+        // Fungsi untuk menutup sidebar
+        function closeSidebar() {
+            if (sidebar) sidebar.classList.add('-translate-x-full');
+            if (sidebarOverlay) sidebarOverlay.classList.add('hidden');
+        }
+
+        // Event listener untuk tombol hamburger
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                openSidebar();
+            });
+        }
+
+        // Event listener untuk overlay (saat diklik di luar sidebar)
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function () {
+                closeSidebar();
+            });
+        }
+    });
+ </script> --}}
+
+ <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // 1. Ambil semua elemen yang kita butuhkan
+                const sidebarToggle = document.getElementById('sidebar-toggle');
+                const sidebarClose = document.getElementById('sidebar-close');
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('main-content');
+                const profileText = document.getElementById('profile-text');   // Elemen baru
+                const profileArrow = document.getElementById('profile-arrow'); // Elemen baru
+
+                // 2. Buat fungsi khusus untuk membuka sidebar
+                function openSidebar() {
+                    sidebar.classList.remove('-translate-x-full');
+                    mainContent.classList.add('ml-64');
+                    sidebarToggle.classList.add('hidden');
+                    // Sembunyikan elemen profil
+                    if (profileText && profileArrow) {
+                        profileText.classList.add('hidden');
+                        profileArrow.classList.add('hidden');
+                    }
+                }
+
+                // 3. Buat fungsi khusus untuk menutup sidebar
+                function closeSidebar() {
+                    sidebar.classList.add('-translate-x-full');
+                    mainContent.classList.remove('ml-64');
+                    sidebarToggle.classList.remove('hidden');
+                    // Tampilkan lagi elemen profil
+                    if (profileText && profileArrow) {
+                        profileText.classList.remove('hidden');
+                        profileArrow.classList.remove('hidden');
+                    }
+                }
+
+                // 4. Atur event listener untuk tombol burger (toggle)
+                if (sidebarToggle) {
+                    sidebarToggle.addEventListener('click', function () {
+                        if (sidebar.classList.contains('-translate-x-full')) {
+                            openSidebar();
+                        } else {
+                            closeSidebar();
+                        }
+                    });
+                }
+
+                // 5. Atur event listener untuk tombol tutup yang baru
+                if (sidebarClose) {
+                    sidebarClose.addEventListener('click', function () {
+                        closeSidebar();
+                    });
+                }
+            });
+            </script>
 
     @stack('scripts')
 </body>

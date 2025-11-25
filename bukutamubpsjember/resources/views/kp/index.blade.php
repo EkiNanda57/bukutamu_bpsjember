@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-6">
 
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Daftar Data Kepuasan Pengunjung</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Data Kepuasan Pengunjung</h2>
 
     <form id="filter-form" action="{{ route('admin.kp.index') }}" method="GET" class="bg-white p-6 rounded-lg shadow-md space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

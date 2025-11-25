@@ -124,11 +124,19 @@
                     <span class="font-medium">Buku Tamu</span>
                 </a>
             </div>
+
+            <div class="pt-4 mt-4 border-t border-white/10 lg:hidden">
+                <button id="sidebar-close" class="nav-link w-full flex items-center justify-center px-4 py-3 text-gray-50 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-300 group">
+                    <div class="p-2 bg-white-500/20 rounded-lg mr-3 group-hover:bg-white-500/30 transition-colors">
+                        <i class="fas fa-chevron-left text-grey-400"></i>
+                    </div>
+                </button>
+            </div>
         </nav>
     </div>
 
     <!-- Main Content -->
-    <div class="lg:ml-64">
+    <div id="main-content" class="lg:ml-64 transition-all duration-300 ease-in-out">
         <!-- Top Navigation -->
         <header class="glass-effect shadow-lg border-b border-white/20 sticky top-0 z-40">
             <div class="flex items-center justify-between px-6 py-4">
@@ -147,8 +155,8 @@
                         <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
                             <span class="text-white text-sm font-bold">A</span>
                         </div>
-                        <span class="text-sm font-medium text-gray-700">Admin BPS</span>
-                        <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-300" :class="{'rotate-180': open}"></i>
+                        <span id="profile-text" class="text-sm font-medium text-gray-700">Admin BPS</span>
+                        <i id="profile-arrow" class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-300" :class="{'rotate-180': open}"></i>
                     </button>
 
                     <div x-show="open"
@@ -395,3 +403,60 @@
                     }
                 </script>
             </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // 1. Ambil semua elemen yang kita butuhkan
+                const sidebarToggle = document.getElementById('sidebar-toggle');
+                const sidebarClose = document.getElementById('sidebar-close');
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('main-content');
+                const profileText = document.getElementById('profile-text');   // Elemen baru
+                const profileArrow = document.getElementById('profile-arrow'); // Elemen baru
+
+                // 2. Buat fungsi khusus untuk membuka sidebar
+                function openSidebar() {
+                    sidebar.classList.remove('-translate-x-full');
+                    mainContent.classList.add('ml-64');
+                    sidebarToggle.classList.add('hidden');
+                    // Sembunyikan elemen profil
+                    if (profileText && profileArrow) {
+                        profileText.classList.add('hidden');
+                        profileArrow.classList.add('hidden');
+                    }
+                }
+
+                // 3. Buat fungsi khusus untuk menutup sidebar
+                function closeSidebar() {
+                    sidebar.classList.add('-translate-x-full');
+                    mainContent.classList.remove('ml-64');
+                    sidebarToggle.classList.remove('hidden');
+                    // Tampilkan lagi elemen profil
+                    if (profileText && profileArrow) {
+                        profileText.classList.remove('hidden');
+                        profileArrow.classList.remove('hidden');
+                    }
+                }
+
+                // 4. Atur event listener untuk tombol burger (toggle)
+                if (sidebarToggle) {
+                    sidebarToggle.addEventListener('click', function () {
+                        if (sidebar.classList.contains('-translate-x-full')) {
+                            openSidebar();
+                        } else {
+                            closeSidebar();
+                        }
+                    });
+                }
+
+                // 5. Atur event listener untuk tombol tutup yang baru
+                if (sidebarClose) {
+                    sidebarClose.addEventListener('click', function () {
+                        closeSidebar();
+                    });
+                }
+            });
+            </script>
+
+</body>
+</html>

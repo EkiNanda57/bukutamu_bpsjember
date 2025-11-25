@@ -7,50 +7,62 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Data Buku Tamu</h2>
 
     {{-- Filter Data, Search dan Tombol PDF --}}
-    <form method="GET" action="{{ route('bt.view') }}" id="filterForm"
-        class="mb-6 flex flex-col md:flex-row items-center gap-3">
+    {{-- File: viewbt.blade.php --}}
 
-        {{-- Pilih Bulan --}}
-        <select name="bulan" 
-            class="w-48 border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
-            onchange="document.getElementById('filterForm').submit()">
-            <option value="">Semua Bulan</option>
-            @foreach (range(1, 12) as $b)
-                <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>
-                    {{ date('F', mktime(0, 0, 0, $b, 1)) }}
-                </option>
-            @endforeach
-        </select>
+{{-- GANTI BAGIAN FORM LAMA ANDA DENGAN INI --}}
+<form method="GET" action="{{ route('bt.view') }}" id="filterForm" class="bg-white p-4 rounded-lg shadow-md mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
+        {{-- Kolom 1: Pilih Bulan --}}
+        <div>
+            <label for="bulan" class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+            <select name="bulan" id="bulan"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                onchange="this.form.submit()">
+                <option value="">Semua Bulan</option>
+                @foreach (range(1, 12) as $b)
+                    <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>
+                        {{ date('F', mktime(0, 0, 0, $b, 1)) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-        {{-- Pilih Tahun --}}
-        <select name="tahun"
-            class="w-48 border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300"
-            onchange="document.getElementById('filterForm').submit()">
-            <option value="">Semua Tahun</option>
-            @foreach (range(date('Y'), 2000) as $t)
-                <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
-                    {{ $t }}
-                </option>
-            @endforeach
-        </select>
+        {{-- Kolom 2: Pilih Tahun --}}
+        <div>
+            <label for="tahun" class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
+            <select name="tahun" id="tahun"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                onchange="this.form.submit()">
+                <option value="">Semua Tahun</option>
+                @foreach (range(date('Y'), 2000) as $t)
+                    <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
+                        {{ $t }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-        {{-- Search Nama --}}
-        <input type="text" name="search" placeholder="Cari nama..."
-            value="{{ request('search') }}"
-            class="w-60 border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 ml-auto"
-            oninput="document.getElementById('filterForm').submit()">
+        {{-- Kolom 3: Search Nama --}}
+        <div>
+            <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari Nama</label>
+            <input type="text" name="search" id="search" placeholder="Ketik nama..."
+                value="{{ request('search') }}"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+                oninput="this.form.submit()">
+        </div>
 
-        {{-- Tombol Download PDF --}}
-        <a href="{{ route('bt.exportPdf', [
-        'bulan' => request('bulan'), 
-        'tahun' => request('tahun'), 
-        'search' => request('search')
-    ]) }}" 
-   class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
-    Download PDF
-</a>
-    </form>
+        {{-- Kolom 4: Tombol Aksi --}}
+        <div class="self-end"> {{-- self-end agar tombol sejajar dengan bagian bawah input lain --}}
+            <a href="{{ route('bt.exportPdf', request()->query()) }}"
+               class="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
+                <i class="fas fa-file-pdf mr-2"></i>
+                Download PDF
+            </a>
+        </div>
+
+    </div>
+</form>
 
     {{-- Tabel Data --}}
     <div class="overflow-x-auto bg-white rounded-lg shadow">
@@ -94,7 +106,7 @@
 
     {{-- Pagination --}}
     <div class="mt-4">
-        {{ $bts->appends(request()->query())->links() }}
+        {{ $bts->appends(request()->query())->onEachSide(1)->links() }}
     </div>
 </div>
 @endsection

@@ -32,5 +32,5 @@
 </div>
 
 <div class="mt-4">
-    {{ $data->links() }}
+    {{ $data->onEachSide(1)->links() }}
 </div>
