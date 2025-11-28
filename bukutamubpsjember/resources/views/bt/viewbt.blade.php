@@ -69,6 +69,7 @@
         <table class="min-w-full text-sm text-left border border-gray-200">
             <thead class="bg-blue-600 text-white">
                 <tr>
+                    <th class="px-4 py-2">Nomor Antrian</th>
                     <th class="px-4 py-2">Tanggal dan Waktu</th>
                     <th class="px-4 py-2">Nama</th>
                     <th class="px-4 py-2">Email</th>
@@ -86,6 +87,7 @@
             <tbody>
                 @foreach($bts as $bt)
                     <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">{{ $bt->nomor_antrian }}</td>
                         <td class="px-4 py-2">{{ $bt->hari }}/{{ $bt->bulan }}/{{ $bt->tahun }} {{ $bt->waktu }}</td>
                         <td class="px-4 py-2">{{ $bt->nama }}</td>
                         <td class="px-4 py-2">{{ $bt->email }}</td>

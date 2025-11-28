@@ -168,4 +168,37 @@
     });
 </script>
 
+@if(session('nomor_antrian'))
+<div id="popup-antrian"
+     class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center w-80">
+        <h2 class="text-xl font-bold mb-2 text-orange-600">Nomor Antrian Anda</h2>
+
+        <div class="text-6xl font-extrabold text-orange-700 mb-3">
+            {{ session('nomor_antrian') }}
+        </div>
+
+        <p class="text-gray-700 mb-4">
+            Keperluan: <strong>{{ session('keperluan') }}</strong>
+        </p>
+
+        <button onclick="closePopup()"
+            class="bg-orange-600 text-white px-5 py-2 rounded-lg hover:bg-orange-700 transition">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+function closePopup() {
+    document.getElementById('popup-antrian').style.display = 'none';
+
+    setTimeout(() => {
+        window.location.replace(window.location.pathname);
+    }, 150);
+}
+</script>
+@endif
+
 @endsection
