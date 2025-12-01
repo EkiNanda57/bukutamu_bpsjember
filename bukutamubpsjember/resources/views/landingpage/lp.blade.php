@@ -83,9 +83,9 @@
         <!-- QR Code Section -->
         <div class="mt-8 flex flex-col items-center">
             <div class="mb-6">
-                <img src="{{ asset('assets/barcode_bukutamu.png') }}" alt="BPS Logo" class="w-48 h-48 object-contain mx-auto">
+                <img src="{{ asset('assets/barcode_bpsjember.png') }}" alt="BPS Logo" class="w-48 h-48 object-contain mx-auto">
            <p class="text-lg font-medium text-white-100 mb-8">
-    bukutamu.bpsjember.com
+    btkp.bpsjember.com
 </p>
 
 <!-- Buttons -->
